@@ -55,6 +55,7 @@
 		<script src="bower_components/backbone/backbone.js"></script>
 		<script src="bower_components/backbone.localStorage/backbone.localStorage.js"></script>
 		<script src="js/models/todo.js"></script>
+    <script src="js/models/test.js"></script>
 		<script src="js/collections/todos.js"></script>
 		<script src="js/views/todo-view.js"></script>
 		<script src="js/views/app-view.js"></script>
@@ -62,7 +63,7 @@
 		<script src="js/app.js"></script>
 
         <!--Add Kojak-->
-        <script src="../../Kojak.min.js"></script>
+        <script src="../../Kojak.js"></script>
 
         <script>
             // Many ways of starting Kojak.  To make things simple just start it on the jquery ready event
@@ -103,7 +104,7 @@
 
                 // Check which functions have been instrumented
                 kRep.instrumentedCode({verbose: true});
-
+                
                 console.log('\n\nPlease perform a few actions with the application.');
                 console.log('Then run this command: kRep.funcPerf({sortBy: \'CallCount\'});');
 

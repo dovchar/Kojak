@@ -9,6 +9,12 @@ Kojak.Config = {
 
     _LOCAL_STORAGE_KEY: 'kojak',
     _LOCAL_STORAGE_BACKUP_KEY: 'kojak_backup',
+    
+    //config for kojak SaaS
+    _SERVER_URL: 'http://localhost:1337',
+    _API_KEY: '',
+    _SECRET_KEY: '',
+    _DELAY: 5,
 
     load: function () {
         if (localStorage.getItem('kojak')) {
@@ -51,6 +57,8 @@ Kojak.Config = {
             console.log('setting a default auto start delay');
             this.setAutoStartDelay(4000);
         }
+        
+        
     },
 
     getEnableNetWatcher: function(){

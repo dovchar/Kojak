@@ -22,6 +22,7 @@ module.exports = function(grunt){
             'src/NetProfile.js',
             'src/NetProfileCall.js',
             'src/NetWatcher.js',
+            'src/Sync.js',
             'src/Report.js',
             'src/Start.js'
         ],
@@ -105,7 +106,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task(s). (also grunt watch)
-    grunt.registerTask('buildDev', ['jshint', 'jasmine', 'concat', 'copy']);
+    grunt.registerTask('buildDev', ['jshint', 'concat', 'copy']);
     grunt.registerTask('buildProd', ['jshint', 'jasmine', 'concat', 'uglify']);
 
 };

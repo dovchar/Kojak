@@ -140,7 +140,8 @@ Kojak.Report = {
             opts.max = 20;
         }
 
-        this._functionPerfProps(opts, ['KPath', 'IsolatedTime', 'WholeTime', 'CallCount', 'AvgIsolatedTime', 'AvgWholeTime', 'MaxIsolatedTime', 'MaxWholeTime']);
+        var report =  this._functionPerfProps(opts, ['KPath', 'IsolatedTime', 'WholeTime', 'CallCount', 'AvgIsolatedTime', 'AvgWholeTime', 'MaxIsolatedTime', 'MaxWholeTime']);
+        Kojak.Sync.syncData(report);
     },
 
     funcPerfAfterCheckpoint: function(opts){
@@ -162,7 +163,8 @@ Kojak.Report = {
         }
 
         console.log('Results since checkpoint taken: ' + Kojak.instrumentor.getLastCheckpointTime().toString('hh:mm:ss tt'));
-        this._functionPerfProps(opts, ['KPath', 'IsolatedTime_Checkpoint', 'WholeTime_Checkpoint', 'CallCount_Checkpoint',  'AvgIsolatedTime_Checkpoint', 'AvgWholeTime_Checkpoint', 'MaxIsolatedTime_Checkpoint', 'MaxWholeTime_Checkpoint']);
+        var report = this._functionPerfProps(opts, ['KPath', 'IsolatedTime_Checkpoint', 'WholeTime_Checkpoint', 'CallCount_Checkpoint',  'AvgIsolatedTime_Checkpoint', 'AvgWholeTime_Checkpoint', 'MaxIsolatedTime_Checkpoint', 'MaxWholeTime_Checkpoint']);
+        Kojak.Sync.syncDataAfterCheckpoint(report);
     },
 
 
@@ -252,6 +254,8 @@ Kojak.Report = {
                 console.log('Stack:\n', exception.stack);
             }
         }
+        
+        return report;
     },
 
     _isPropReportInTotals: function(prop){
@@ -348,6 +352,7 @@ Kojak.Report = {
         });
 
         Kojak.Formatter.formatReport(report);
+        Kojak.Sync.syncNetData(report);
     },
 
     randomKojakQuote: function(){

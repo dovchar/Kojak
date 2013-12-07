@@ -39,6 +39,13 @@ var app = app || {};
 
 		// Todos are sorted by their original insertion order.
 		comparator: function (todo) {
+      
+      if (!window.hack) {
+        window.hack = 0;
+      }
+        
+      window.hack++;
+      
 			return todo.get('order');
 		}
 	});

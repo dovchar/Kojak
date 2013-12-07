@@ -31,6 +31,9 @@ var app = app || {};
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(this.model, 'visible', this.toggleVisible);
+      
+      var testModel = new app.TestModel();
+      testModel.fetch();
 		},
 
 		// Re-render the titles of the todo item.
