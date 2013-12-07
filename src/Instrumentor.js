@@ -30,9 +30,9 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
             console.log('Kojak has completed instrumenting.  Run Kojak.Report.instrumentedCode() to see what functions have been instrumented');
         }
         catch (exception) {
-            console.log('Error, Kojak instrument has failed ', exception);
+            console.error('Error, Kojak instrument has failed ', exception);
             if(exception.stack){
-                console.log('Stack:\n', exception.stack);
+                console.error('Stack:\n', exception.stack);
             }
         }
     },
@@ -116,7 +116,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
                 pakageName = Kojak.Core.getObjName(pakagePath);
                 if(   Kojak.Core.inferKojakType(pakageName, pakage) === Kojak.Core.CLAZZ &&
                     ! pakage.prototype._kPath){
-                    console.log('---found PACKAGE that is a clazz ', pakagePath);
+                    console.error('---found PACKAGE that is a clazz ', pakagePath);
                     curPakageNames.push(pakagePath + '.prototype');
                 }
             }
@@ -130,7 +130,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
             return true;
         }
         else if( Kojak.Core.inferKojakType(pakagePath, pakage) === Kojak.Core.PAKAGE && pakage._kPath){
-            console.log('ignored circular/duplicate package reference: ', pakagePath);
+            console.warn('ignored circular/duplicate package reference: ', pakagePath);
             return true;
         }
         else {
@@ -187,7 +187,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
         container = Kojak.Core.getContext(containerPath);
 
         if(!container){
-            console.log('Kojak error, the function path could not be located: ' + fullFuncPath);
+            console.error('Kojak error, the function path could not be located: ' + fullFuncPath);
         }
         else{
             funcProfile = new Kojak.FunctionProfile(container, funcName, origFunc);
@@ -217,7 +217,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
             this.instrument();
         }
 
-        this._lastCheckpointTime = new Date();
+        this._lastCheckpointTime = Date.now();
         this._functionProfiles.forEach(function(functionProfile){
             functionProfile.takeCheckpoint();
         }.bind(this));
@@ -233,7 +233,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
         this._stackLevelCumTimes[this._stackLevel] = 0;
         this._stackContexts[this._stackLevel] = functionProfile.getKPath();
 
-        functionProfile.pushStartTime(new Date());
+        functionProfile.pushStartTime(Date.now());
 
         if (Kojak.Config.getRealTimeFunctionLogging()) {
             console.log(Kojak.Formatter.makeTabs(this._stackLevel) + 'start: ' + functionProfile.getKPath(), Kojak.Formatter.number(functionProfile.getIsolatedTime()));
@@ -246,7 +246,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
 
         this._stackLevel--;
         startTime = functionProfile.popStartTime();
-        wholeTime = (new Date()) - startTime;
+        wholeTime = Date.now() - startTime;
         isolatedTime = wholeTime - this._stackLevelCumTimes[this._stackLevel + 1];
 
         functionProfile.recordCallMetrics(this._stackContexts.join(' > '), isolatedTime, wholeTime);

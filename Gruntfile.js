@@ -87,14 +87,6 @@ module.exports = function(grunt){
                 src: '<%= pkg.name %>.js',
                 dest: '<%= pkg.name %>.min.js'
             }
-        },
-
-        // Only useful to me in dev to work with main project - Remove at some point
-        copy: {
-            main: {
-                src: 'Kojak.js',
-                dest: 'C:/Projects/GryphonWork/gryphon-common/web-app/src/util/<%= pkg.name %>.min.js'
-            }
         }
     });
 
@@ -106,7 +98,12 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task(s). (also grunt watch)
+
     grunt.registerTask('buildDev', ['jshint', 'concat', 'copy']);
+    
+    //Form main repo
+    //grunt.registerTask('buildDev', ['jshint', 'jasmine', 'concat']);
+
     grunt.registerTask('buildProd', ['jshint', 'jasmine', 'concat', 'uglify']);
 
 };
