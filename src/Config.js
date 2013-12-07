@@ -14,6 +14,7 @@ Kojak.Config = {
     _SERVER_URL: 'http://localhost:1337',
     _API_KEY: '',
     _SECRET_KEY: '',
+    _SYNC: null,
     _DELAY: 5,
 
     load: function () {
@@ -24,6 +25,12 @@ Kojak.Config = {
             this._configValues = this._createDefaults();
             this._save();
         }
+    },
+
+    sync: function (secretKey, apiKey) {
+        this._SECRET_KEY = secretKey;
+        this._API_KEY = apiKey;
+        this._SYNC = true;
     },
 
     saveBackup: function(){

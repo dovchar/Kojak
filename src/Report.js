@@ -146,7 +146,10 @@ Kojak.Report = {
         }
 
         var report = this._functionPerfProps(opts, props, totalProps);
-        Kojak.Sync.syncData(report);
+        
+        if(Kojak.Config._SYNC) {
+            Kojak.Sync.syncData(report);
+        }
     },
 
     funcPerfAfterCheckpoint: function(opts){
@@ -172,10 +175,13 @@ Kojak.Report = {
             opts.max = 20;
         }
 
-        console.log('Results since checkpoint taken: ' + Kojak.instrumentor.getLastCheckpointTime().toString('hh:mm:ss tt'));
+        console.log('Results since checkpoint taken: ' + new Date(Kojak.instrumentor.getLastCheckpointTime()));
 
         var report = this._functionPerfProps(opts, props, totalProps);
-        Kojak.Sync.syncDataAfterCheckpoint(report);
+
+        if(Kojak.Config._SYNC) {
+            Kojak.Sync.syncDataAfterCheckpoint(report);
+        }
     },
 
 
@@ -366,7 +372,10 @@ Kojak.Report = {
         });
 
         Kojak.Formatter.formatReport(report);
-        Kojak.Sync.syncNetData(report);
+
+        if(Kojak.Config._SYNC) {
+            Kojak.Sync.syncNetData(report);
+        }
     },
 
     randomKojakQuote: function(){

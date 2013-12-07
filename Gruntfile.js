@@ -99,7 +99,7 @@ module.exports = function(grunt){
 
     // Default task(s). (also grunt watch)
 
-    grunt.registerTask('buildDev', ['jshint', 'concat', 'copy']);
+    grunt.registerTask('buildDev', ['jshint', 'concat']);
     
     //Form main repo
     //grunt.registerTask('buildDev', ['jshint', 'jasmine', 'concat']);
