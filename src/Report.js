@@ -175,7 +175,7 @@ Kojak.Report = {
             opts.max = 20;
         }
 
-        console.log('Results since checkpoint taken: ' + new Date(Kojak.instrumentor.getLastCheckpointTime()));
+        console.log('Results since checkpoint taken: ' + (new Date(Kojak.instrumentor.getLastCheckpointTime())).toString('hh:mm:ss tt'));
 
         var report = this._functionPerfProps(opts, props, totalProps);
 
@@ -362,7 +362,7 @@ Kojak.Report = {
                 }
 
                 reportLine.push(netProfileCall.getUrlParams());
-                reportLine.push(netProfileCall.getDate().toString('hh:mm:ss tt'));
+                reportLine.push((new Date(netProfileCall.getDate())).toString('hh:mm:ss tt'));
                 reportLine.push(netProfileCall.getCallTime());
                 reportLine.push(netProfileCall.getResponseSize());
                 reportLine.push(netProfileCall.getObjCount());

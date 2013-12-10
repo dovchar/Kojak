@@ -4,7 +4,8 @@ Kojak.Sync = {
     syncData: function (data) {
       Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
-      var report = {report: data};
+      var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
+        clientKey: Kojak.Config._API_KEY};
       
       $.ajax({
           type: 'POST',
@@ -25,7 +26,8 @@ Kojak.Sync = {
     syncNetData: function (data) {
       Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
-      var report = {report: data};
+      var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
+        clientKey: Kojak.Config._API_KEY};
       
       $.ajax({
           type: 'POST',
@@ -46,7 +48,8 @@ Kojak.Sync = {
     syncDataAfterCheckpoint: function (data) {
       Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
-      var report = {report: data};
+      var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
+        clientKey: Kojak.Config._API_KEY};
       
       $.ajax({
           type: 'POST',
