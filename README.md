@@ -286,6 +286,15 @@ This does not track network requests made in a Web Worker right now.
 
 
 <br>
+####Kojak Sync
+If you want to save performance report by functions and networks you can enable kojak sync functionality. It is very easy:
+````
+  kConfig.sync('secretKey', 'apiKey'); 
+````
+Where you can get 'secretKey' and 'apiKey' just go to kojak visualization platform: url to platform. Sign-in with your github account and create your first application. 
+more examples you can find by link (add link from JSPRO doc). 
+
+<br>
 ####Full API and Options
 
 kConfig (configuration)<hr>
