@@ -178,8 +178,10 @@ Kojak.Report = {
         console.log('Results since checkpoint taken: ' + (new Date(Kojak.instrumentor.getLastCheckpointTime())).toString('hh:mm:ss tt'));
 
         var report = this._functionPerfProps(opts, props, totalProps);
-
+        console.log('afterCheckpoint:_______________________________________');
         if(Kojak.Config._SYNC) {
+          console.log(report);
+          console.log('afterCheckpoint:_______________________________________');
             Kojak.Sync.syncDataAfterCheckpoint(report);
         }
     },

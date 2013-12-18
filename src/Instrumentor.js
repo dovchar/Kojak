@@ -216,7 +216,7 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
         if(!this.hasInstrumented()){
             this.instrument();
         }
-
+        console.log('takeCheckpoint:_______________________________________');
         this._lastCheckpointTime = Date.now();
         this._functionProfiles.forEach(function(functionProfile){
             functionProfile.takeCheckpoint();

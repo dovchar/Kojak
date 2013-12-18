@@ -50,7 +50,6 @@ Kojak.Sync = {
       
       var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
         clientKey: Kojak.Config._API_KEY};
-      
       $.ajax({
           type: 'POST',
           url: Kojak.Config._SERVER_URL + '/setAfterCheckpoint',
