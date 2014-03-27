@@ -182,7 +182,19 @@ Kojak.Report = {
         if(Kojak.Config._SYNC) {
           console.log(report);
           console.log('afterCheckpoint:_______________________________________');
-            Kojak.Sync.syncDataAfterCheckpoint(report);
+            Kojak.Sync.syncDataAfterCheckpoint({
+                report: report, 
+                usedJSHeapSize: performance.memory.usedJSHeapSize/1024,
+                totalJSHeapSize: performance.memory.totalJSHeapSize/1024,
+                jsHeapSizeLimit: performance.memory.jsHeapSizeLimit/1024
+            });
+            if(opts.gc) {
+                try{
+                    gc();
+                } catch(e) {
+                    console.log('You do not have access to garbage collector from you browser, you could run chrome with --js-flags="--expose-gc" param.');
+                }
+            }
         }
     },
 
@@ -270,7 +282,7 @@ Kojak.Report = {
             report.push(totalsRow);
 
             console.log('Top ' + opts.max + ' functions displayed sorted by ' + opts.sortBy + (opts.filter ? ' based on your filter: \'' + opts.filter: '\''));
-            Kojak.Formatter.formatReport(report);
+            console.table(report);
         }
         catch (exception) {
             console.error('Error, Kojak.Report.funcPerf has failed ', exception);

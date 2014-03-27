@@ -11,10 +11,10 @@ Kojak.Config = {
     _LOCAL_STORAGE_BACKUP_KEY: 'kojak_backup',
     
     //config for kojak SaaS
-    _SERVER_URL: 'http://ec2-54-200-67-231.us-west-2.compute.amazonaws.com:9000',
-    _API_KEY: '',
-    _SECRET_KEY: '',
-    _SYNC: null,
+    _SERVER_URL: 'http://localhost:1337',
+    _API_KEY: 'c76bea0c1ef19972380ba7ca6b8800a6aedc2b7b',
+    _SECRET_KEY: '11d83017e0e223de9e20891acf908872969062db',
+    _SYNC: true,
     _DELAY: 5,
 
     load: function () {
