@@ -287,12 +287,14 @@ This does not track network requests made in a Web Worker right now.
 
 <br>
 ####Kojak Sync
-If you want to save performance report by functions and networks you can enable kojak sync functionality. It is very easy:
+If you want to save performance report by functions, networks, js memory you can enable kojak sync functionality. It is very easy:
 ````
   kConfig.sync('secretKey', 'apiKey'); 
 ````
-Where you can get 'secretKey' and 'apiKey' just go to kojak visualization platform: url to platform. Sign-in with your github account and create your first application. 
-more examples you can find by link (add link from JSPRO doc). 
+Where you can get 'secretKey' and 'apiKey' just go to kojak visualization platform: <a href="https://github.com/dovchar/JSPro">https://github.com/dovchar/JSPro</a>. Sign-in with your github account and create your first application. 
+For collecting jsHeapSizeLimit, totalJSHeapSize and usedJSHeapSize you should run chrom with options: --enable-memory-info --user-data-dir=test/te --js-flags="--expose-gc". Also if you want run garbage collector after each measurement you need run
+```` kRep.funcPerfAfterCheckpoint({gc: true}); ```` gc options will allow Kojak to run garbage collector from javascript on demand.
+
 
 <br>
 ####Full API and Options
