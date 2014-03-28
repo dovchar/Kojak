@@ -12,9 +12,9 @@ Kojak.Config = {
     
     //config for kojak SaaS
     _SERVER_URL: 'http://localhost:1337',
-    _API_KEY: 'c76bea0c1ef19972380ba7ca6b8800a6aedc2b7b',
-    _SECRET_KEY: '11d83017e0e223de9e20891acf908872969062db',
-    _SYNC: true,
+    _API_KEY: '',
+    _SECRET_KEY: '',
+    _SYNC: false,
     _DELAY: 5,
 
     load: function () {

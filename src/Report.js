@@ -195,7 +195,6 @@ Kojak.Report = {
         }
     },
 
-
     // opts are
     //  max: a number - how many rows do you want to show
     //  filter: a string or an array of strings.  If a function's kPath partially matches any of the filter strings it's included

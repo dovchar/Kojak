@@ -104,6 +104,6 @@ module.exports = function(grunt){
     //Form main repo
     //grunt.registerTask('buildDev', ['jshint', 'jasmine', 'concat']);
 
-    grunt.registerTask('buildProd', ['jshint', 'jasmine', 'concat', 'uglify']);
+    grunt.registerTask('buildProd', ['jshint', 'concat', 'uglify']);
 
 };
