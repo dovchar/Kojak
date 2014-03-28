@@ -292,7 +292,9 @@ If you want to save performance report by functions, networks, js memory you can
   kConfig.sync('secretKey', 'apiKey'); 
 ````
 Where you can get 'secretKey' and 'apiKey' just go to kojak visualization platform: <a href="https://github.com/dovchar/JSPro">https://github.com/dovchar/JSPro</a>. Sign-in with your github account and create your first application. 
-For collecting jsHeapSizeLimit, totalJSHeapSize and usedJSHeapSize you should run chrom with options: --enable-memory-info --user-data-dir=test/te --js-flags="--expose-gc". Also if you want run garbage collector after each measurement you need run
+For collecting jsHeapSizeLimit, totalJSHeapSize and usedJSHeapSize you should run chrome with options: 
+```` --enable-memory-info --user-data-dir=test/te --js-flags="--expose-gc" ```` 
+Also if you want run garbage collector after each measurement you need run
 ```` kRep.funcPerfAfterCheckpoint({gc: true}); ```` gc options will allow Kojak to run garbage collector from javascript on demand.
 
 
