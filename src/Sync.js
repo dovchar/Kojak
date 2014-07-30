@@ -49,12 +49,14 @@ Kojak.Sync = {
       Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
       var report = {
-        report: data.report, 
-        usedJSHeapSize: data.usedJSHeapSize,
-        totalJSHeapSize: data.totalJSHeapSize,
-        jsHeapSizeLimit: data.jsHeapSizeLimit,
-        secretKey: Kojak.Config._SECRET_KEY, 
-        clientKey: Kojak.Config._API_KEY};
+          totalJSHeapSize: data.totalJSHeapSize,
+          jsHeapSizeLimit: data.jsHeapSizeLimit,
+          secretKey: Kojak.Config._SECRET_KEY,
+          usedJSHeapSize: data.usedJSHeapSize,
+          clientKey: Kojak.Config._API_KEY,
+          snapshotName: data.snapshotName,
+          report: data.report
+      };
       $.ajax({
           type: 'POST',
           url: Kojak.Config._SERVER_URL + '/setAfterCheckpoint',
