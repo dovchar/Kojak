@@ -1,5 +1,5 @@
 // Kojak Version 0.1.0 
-// Last built 2014-07-30
+// Last built 2014-11-05
 // Distributed Under MIT License
 // (c) 2013 Bart Wood 
 
@@ -245,9 +245,9 @@ Kojak.Config = {
     
     //config for kojak SaaS
     _SERVER_URL: 'http://localhost:1337',
-    _API_KEY: '',
-    _SECRET_KEY: '',
-    _SYNC: false,
+    _API_KEY: 'c76bea0c1ef19972380ba7ca6b8800a6aedc2b7b',
+    _SECRET_KEY: '11d83017e0e223de9e20891acf908872969062db',
+    _SYNC: true,
     _DELAY: 5,
 
     load: function () {
@@ -1044,6 +1044,8 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
         }
         console.log('takeCheckpoint:_______________________________________');
         this._lastCheckpointTime = Date.now();
+        Kojak.netWatcher.getNetProfiles_Checkpoint(true);
+        Kojak.Error.clean();
         this._functionProfiles.forEach(function(functionProfile){
             functionProfile.takeCheckpoint();
         }.bind(this));
@@ -1266,56 +1268,92 @@ Kojak.Core.extend(Kojak.NetWatcher.prototype, {
         return this._netProfiles;
     },
 
-    getNetProfiles_Checkpoint: function(){
+    getNetProfiles_Checkpoint: function(clean) {
+        console.log(this._netProfiles_checkpoint);
+        console.log(clean);
+        if (clean) {
+            console.log(this._netProfiles);
+            this._netProfiles = [];
+            this._netProfiles_checkpoint = {};
+            return this._netProfiles_checkpoint;
+        }
         return this._netProfiles_checkpoint;
     }
 
 });
+Kojak.Error = {
+    _store: [],
+
+    onError: function () {
+      window.onerror = function(msg, url, line, col, err) {
+        console.log(arguments);
+        var arr = {
+          msg: msg, 
+          url: url, 
+          line: line,
+          col: col,
+          stack: err.stack
+        };
+        console.log(err.stack);
+        Kojak.Error._store.push(arr);
+      };
+    },
+
+    get: function () {
+      return Kojak.Error._store;
+    },
+
+    clean: function () {
+      Kojak.Error._store = [];
+    }
+};
+
+Kojak.Error.onError();
 //Need jquery for sync.
 //TODO: implement native ajax call with webworkers
 Kojak.Sync = {
     syncData: function (data) {
-      Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
+      // Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
-      var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
-        clientKey: Kojak.Config._API_KEY};
+      // var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
+      //   clientKey: Kojak.Config._API_KEY};
       
-      $.ajax({
-          type: 'POST',
-          url: Kojak.Config._SERVER_URL + '/setFuncReport',
-          crossDomain: true,
-          data: report,
-          dataType: 'json',
-          success: function(responseData, textStatus, jqXHR) {
-              //var value = responseData;
-              console.log('Kojak Saas:' + textStatus);
-          },
-          error: function (responseData, textStatus, errorThrown) {
-              console.log('post data to kojak saas is failed. ' + JSON.stringify(responseData));
-          }
-      });
+      // $.ajax({
+      //     type: 'POST',
+      //     url: Kojak.Config._SERVER_URL + '/setFuncReport',
+      //     crossDomain: true,
+      //     data: report,
+      //     dataType: 'json',
+      //     success: function(responseData, textStatus, jqXHR) {
+      //         //var value = responseData;
+      //         console.log('Kojak Saas:' + textStatus);
+      //     },
+      //     error: function (responseData, textStatus, errorThrown) {
+      //         console.log('post data to kojak saas is failed. ' + JSON.stringify(responseData));
+      //     }
+      // });
     },
     
     syncNetData: function (data) {
-      Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
+      // Kojak.Core.assert(Kojak.Config._SERVER_URL, 'server url not defined');
       
-      var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
-        clientKey: Kojak.Config._API_KEY};
+      // var report = {report: data, secretKey: Kojak.Config._SECRET_KEY, 
+      //   clientKey: Kojak.Config._API_KEY};
       
-      $.ajax({
-          type: 'POST',
-          url: Kojak.Config._SERVER_URL + '/setNetReport',
-          crossDomain: true,
-          data: report,
-          dataType: 'json',
-          success: function(responseData, textStatus, jqXHR) {
-              //var value = responseData;
-              console.log('Kojak Saas:' + textStatus);
-          },
-          error: function (responseData, textStatus, errorThrown) {
-              console.log('post data to kojak saas is failed. ' + JSON.stringify(responseData));
-          }
-      });
+      // $.ajax({
+      //     type: 'POST',
+      //     url: Kojak.Config._SERVER_URL + '/setNetReport',
+      //     crossDomain: true,
+      //     data: report,
+      //     dataType: 'json',
+      //     success: function(responseData, textStatus, jqXHR) {
+      //         //var value = responseData;
+      //         console.log('Kojak Saas:' + textStatus);
+      //     },
+      //     error: function (responseData, textStatus, errorThrown) {
+      //         console.log('post data to kojak saas is failed. ' + JSON.stringify(responseData));
+      //     }
+      // });
     },
     
     syncDataAfterCheckpoint: function (data) {
@@ -1328,8 +1366,11 @@ Kojak.Sync = {
           usedJSHeapSize: data.usedJSHeapSize,
           clientKey: Kojak.Config._API_KEY,
           snapshotName: data.snapshotName,
-          report: data.report
+          report: data.report,
+          network: data.network,
+          err: data.err
       };
+      // console.log(report);
       $.ajax({
           type: 'POST',
           url: Kojak.Config._SERVER_URL + '/setAfterCheckpoint',
@@ -1517,12 +1558,15 @@ Kojak.Report = {
 
     _collectDataForAfterCheckpoint: function (options, properties, totalProperties) {
         var report = this._functionPerfProps(options, properties, totalProperties),
+            network = this._netCalls(Kojak.netWatcher.getNetProfiles_Checkpoint()),
             data = {
                 totalJSHeapSize: performance.memory.totalJSHeapSize/1024,
                 jsHeapSizeLimit: performance.memory.jsHeapSizeLimit/1024,
                 usedJSHeapSize: performance.memory.usedJSHeapSize/1024,
                 snapshotName: options.snapshotName,
-                report: report
+                report: report,
+                network: network,
+                err: Kojak.Error.get()
             };
 
         return data;
@@ -1683,7 +1727,7 @@ Kojak.Report = {
     },
 
     _netCalls: function(netProfiles){
-        var urlBase, netProfile, sorted = [], report = [];
+        var urlBase, netProfile = [], sorted = [], report = [];
 
         if(!Kojak.netWatcher){
             console.warn('The NetWatcher is not loaded.  Have you set Kojak.Config.setEnableNetWatcher(true)?');
@@ -1701,19 +1745,16 @@ Kojak.Report = {
 
         report.push(['--urlBase--', '--urlParameters--', '--When Called--', '--Call Time--', '--Size (bytes)--', '--Obj Count--']);
 
+        console.log(sorted);
+
         sorted.forEach(function(item){
             var addedUrlBase = false;
 
             item.netProfile.getCallsSortedByDate().forEach(function(netProfileCall){
                 var reportLine = [];
 
-                if(!addedUrlBase){
-                    reportLine.push(item.netProfile.getUrlBase());
-                    addedUrlBase = true;
-                }
-                else {
-                    reportLine.push('');
-                }
+                reportLine.push(item.netProfile.getUrlBase());
+                addedUrlBase = true;                
 
                 reportLine.push(netProfileCall.getUrlParams());
                 reportLine.push((new Date(netProfileCall.getDate())).toString('hh:mm:ss tt'));
@@ -1728,7 +1769,9 @@ Kojak.Report = {
         Kojak.Formatter.formatReport(report);
 
         if(Kojak.Config._SYNC) {
-            Kojak.Sync.syncNetData(report);
+            // Kojak.Sync.syncNetData(report);
+            console.log(report);
+            return report;
         }
     },
 

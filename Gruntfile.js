@@ -22,6 +22,7 @@ module.exports = function(grunt){
             'src/NetProfile.js',
             'src/NetProfileCall.js',
             'src/NetWatcher.js',
+            'src/Error.js',
             'src/Sync.js',
             'src/Report.js',
             'src/Start.js'

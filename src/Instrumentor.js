@@ -218,6 +218,8 @@ Kojak.Core.extend(Kojak.Instrumentor.prototype, {
         }
         console.log('takeCheckpoint:_______________________________________');
         this._lastCheckpointTime = Date.now();
+        Kojak.netWatcher.getNetProfiles_Checkpoint(true);
+        Kojak.Error.clean();
         this._functionProfiles.forEach(function(functionProfile){
             functionProfile.takeCheckpoint();
         }.bind(this));

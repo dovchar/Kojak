@@ -11,7 +11,7 @@ Kojak.Config = {
     _LOCAL_STORAGE_BACKUP_KEY: 'kojak_backup',
     
     //config for kojak SaaS
-    _SERVER_URL: 'http://jspro.herokuapp.com',
+    _SERVER_URL: '',
     _API_KEY: '',
     _SECRET_KEY: '',
     _SYNC: false,

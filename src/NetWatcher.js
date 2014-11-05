@@ -69,7 +69,15 @@ Kojak.Core.extend(Kojak.NetWatcher.prototype, {
         return this._netProfiles;
     },
 
-    getNetProfiles_Checkpoint: function(){
+    getNetProfiles_Checkpoint: function(clean) {
+        console.log(this._netProfiles_checkpoint);
+        console.log(clean);
+        if (clean) {
+            console.log(this._netProfiles);
+            this._netProfiles = [];
+            this._netProfiles_checkpoint = {};
+            return this._netProfiles_checkpoint;
+        }
         return this._netProfiles_checkpoint;
     }
 

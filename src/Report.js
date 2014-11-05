@@ -171,12 +171,15 @@ Kojak.Report = {
 
     _collectDataForAfterCheckpoint: function (options, properties, totalProperties) {
         var report = this._functionPerfProps(options, properties, totalProperties),
+            network = this._netCalls(Kojak.netWatcher.getNetProfiles_Checkpoint()),
             data = {
                 totalJSHeapSize: performance.memory.totalJSHeapSize/1024,
                 jsHeapSizeLimit: performance.memory.jsHeapSizeLimit/1024,
                 usedJSHeapSize: performance.memory.usedJSHeapSize/1024,
                 snapshotName: options.snapshotName,
-                report: report
+                report: report,
+                network: network,
+                err: Kojak.Error.get()
             };
 
         return data;
@@ -337,7 +340,7 @@ Kojak.Report = {
     },
 
     _netCalls: function(netProfiles){
-        var urlBase, netProfile, sorted = [], report = [];
+        var urlBase, netProfile = [], sorted = [], report = [];
 
         if(!Kojak.netWatcher){
             console.warn('The NetWatcher is not loaded.  Have you set Kojak.Config.setEnableNetWatcher(true)?');
@@ -355,19 +358,16 @@ Kojak.Report = {
 
         report.push(['--urlBase--', '--urlParameters--', '--When Called--', '--Call Time--', '--Size (bytes)--', '--Obj Count--']);
 
+        console.log(sorted);
+
         sorted.forEach(function(item){
             var addedUrlBase = false;
 
             item.netProfile.getCallsSortedByDate().forEach(function(netProfileCall){
                 var reportLine = [];
 
-                if(!addedUrlBase){
-                    reportLine.push(item.netProfile.getUrlBase());
-                    addedUrlBase = true;
-                }
-                else {
-                    reportLine.push('');
-                }
+                reportLine.push(item.netProfile.getUrlBase());
+                addedUrlBase = true;                
 
                 reportLine.push(netProfileCall.getUrlParams());
                 reportLine.push((new Date(netProfileCall.getDate())).toString('hh:mm:ss tt'));
@@ -382,7 +382,9 @@ Kojak.Report = {
         Kojak.Formatter.formatReport(report);
 
         if(Kojak.Config._SYNC) {
-            Kojak.Sync.syncNetData(report);
+            // Kojak.Sync.syncNetData(report);
+            console.log(report);
+            return report;
         }
     },
 
