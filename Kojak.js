@@ -1,5 +1,5 @@
 // Kojak Version 0.1.0 
-// Last built 2014-11-05
+// Last built 2014-11-07
 // Distributed Under MIT License
 // (c) 2013 Bart Wood 
 
@@ -244,10 +244,10 @@ Kojak.Config = {
     _LOCAL_STORAGE_BACKUP_KEY: 'kojak_backup',
     
     //config for kojak SaaS
-    _SERVER_URL: 'http://localhost:1337',
-    _API_KEY: 'c76bea0c1ef19972380ba7ca6b8800a6aedc2b7b',
-    _SECRET_KEY: '11d83017e0e223de9e20891acf908872969062db',
-    _SYNC: true,
+    _SERVER_URL: '',
+    _API_KEY: '',
+    _SECRET_KEY: '',
+    _SYNC: false,
     _DELAY: 5,
 
     load: function () {
@@ -1286,7 +1286,6 @@ Kojak.Error = {
 
     onError: function () {
       window.onerror = function(msg, url, line, col, err) {
-        console.log(arguments);
         var arr = {
           msg: msg, 
           url: url, 
@@ -1294,7 +1293,6 @@ Kojak.Error = {
           col: col,
           stack: err.stack
         };
-        console.log(err.stack);
         Kojak.Error._store.push(arr);
       };
     },
